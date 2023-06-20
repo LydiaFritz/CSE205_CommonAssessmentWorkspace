@@ -14,12 +14,14 @@ public class Game {
 	private ArrayList<String> bonusWords;
 	
 	private String [][] grid;
+	private ArrayList<Location> moves;
 	
 	public static Scanner fin;
 	
 	public Game(String inputFile) {
 		words = new ArrayList<String>();
 		bonusWords = new ArrayList<String>();
+		moves = new ArrayList<Location>();
 		getInput(inputFile);
 		
 		//Testing
@@ -30,6 +32,8 @@ public class Game {
 		System.out.println();
 		System.out.println("Checking the grid");
 		showGrid();
+		System.out.println("Show moves list");
+		System.out.println(moves);
 	}
 	
 	private void initializeFile(String fileName) {
@@ -118,6 +122,20 @@ public class Game {
 		}
 	}
 	
+	private void getLocations() {
+		//location must be a pair of ints
+		int r, c;
+		while(fin.hasNextInt()) {
+			r = fin.nextInt();
+			if(!fin.hasNextInt()) {
+				System.out.println("Input error in moves list");
+				System.exit(40);
+			}
+			c = fin.nextInt();
+			moves.add(new Location(r,c));
+		}
+	}
+	
 	private void getInput(String fileName) {
 		
 		initializeFile(fileName);
@@ -125,6 +143,8 @@ public class Game {
 		getSep();
 		getWords();	
 		populateGrid();
+		getSep();
+		getLocations();
 		
 	}
 }
