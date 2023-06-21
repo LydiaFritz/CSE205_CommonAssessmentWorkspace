@@ -9,33 +9,74 @@ import java.util.Scanner;
 public class Game {
 
 	private int taskNum, gridSize;
+
 	
 	private ArrayList<String> words;
 	private ArrayList<String> bonusWords;
-	
-	private String [][] grid;
+
+	private String[][] grid;
 	private ArrayList<Location> moves;
-	
+
 	public static Scanner fin;
-	
+
 	public Game(String inputFile) {
+		
 		words = new ArrayList<String>();
 		bonusWords = new ArrayList<String>();
 		moves = new ArrayList<Location>();
-		getInput(inputFile);
 		
-		//Testing
-		for(String s : words)System.out.print(s + " ");
+		getInput(inputFile);
+
+		// Testing
+		// testInitialization();
+
+	}
+	
+	public void doTask() {
+		switch(taskNum) {
+		case 1:
+			Tasks.sortAndPrint(words);
+			Tasks.sortAndPrint(bonusWords);
+			break;
+		
+		case 2:
+			int error = Tasks.task2(moves, gridSize);
+			if(error == 0) System.out.println("YES");
+			else if(error == 1)System.out.println("NO 1");
+			else if(error == 2)System.out.println("NO 2");
+			else if(error == 3)System.out.println("NO 3");
+			break;
+		}
+			
+	}
+
+	private void getInput(String fileName) {
+
+		initializeFile(fileName);
+		getTaskNum();
+		getSep();
+		getWords();
+		populateGrid();
+		getSep();
+		getLocations();
+
+	}
+
+	private void testInitialization() {
+
+		for (String s : words)
+			System.out.print(s + " ");
 		System.out.println();
 		Tasks.sortAndPrint(words);
-		for(String s : bonusWords)System.out.print(s + " ");
+		for (String s : bonusWords)
+			System.out.print(s + " ");
 		System.out.println();
 		System.out.println("Checking the grid");
 		showGrid();
 		System.out.println("Show moves list");
 		System.out.println(moves);
 	}
-	
+
 	private void initializeFile(String fileName) {
 		try {
 			fin = new Scanner(new File(fileName));
@@ -44,16 +85,15 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void getTaskNum() {
 		try {
 			taskNum = fin.nextInt();
-		}
-		catch(InputMismatchException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("Task num is not an integer");
 		}
 	}
-	
+
 	private void getWords() {
 		String word, type;
 		word = fin.next();
@@ -76,7 +116,7 @@ public class Game {
 
 		}
 	}
-	
+
 	private void getSep() {
 		// get #
 		String sep = fin.next();
@@ -85,25 +125,24 @@ public class Game {
 			System.exit(10);
 		}
 	}
-	
+
 	private void populateGrid() {
-		
+
 		try {
 			gridSize = fin.nextInt();
-		}
-		catch(InputMismatchException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("Grid size must be an int");
 		}
-		
-		//get rid of the seperator
+
+		// get rid of the seperator
 		getSep();
-		
+
 		grid = new String[gridSize][gridSize];
 		String str = "";
-		for(int row = 0; row < gridSize; row++) {
-			for(int col = 0; col < gridSize; col++) {
+		for (int row = 0; row < gridSize; row++) {
+			for (int col = 0; col < gridSize; col++) {
 				str = fin.next();
-				if(str.equals("#")) {
+				if (str.equals("#")) {
 					System.out.println("Format error - not enough chars for the grid.");
 					System.exit(40);
 				}
@@ -111,40 +150,29 @@ public class Game {
 			}
 		}
 	}
-	
-	//testing
+
+	// testing
 	private void showGrid() {
-		for(int i = 0; i < gridSize; i++) {
-			for(int j = 0; j < gridSize; j++) {
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
 				System.out.printf("| %s ", grid[i][j]);
 			}
 			System.out.println("|");
 		}
 	}
-	
+
 	private void getLocations() {
-		//location must be a pair of ints
+		// location must be a pair of ints
 		int r, c;
-		while(fin.hasNextInt()) {
+		while (fin.hasNextInt()) {
 			r = fin.nextInt();
-			if(!fin.hasNextInt()) {
+			if (!fin.hasNextInt()) {
 				System.out.println("Input error in moves list");
 				System.exit(40);
 			}
 			c = fin.nextInt();
-			moves.add(new Location(r,c));
+			moves.add(new Location(r, c));
 		}
 	}
-	
-	private void getInput(String fileName) {
-		
-		initializeFile(fileName);
-		getTaskNum();
-		getSep();
-		getWords();	
-		populateGrid();
-		getSep();
-		getLocations();
-		
-	}
+
 }
