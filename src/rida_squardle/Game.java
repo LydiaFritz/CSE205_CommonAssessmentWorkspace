@@ -10,44 +10,47 @@ public class Game {
 
 	private int taskNum, gridSize;
 
-	
 	private ArrayList<String> words;
 	private ArrayList<String> bonusWords;
 
 	private String[][] grid;
-	private ArrayList<Location> moves;
+	private ArrayList<ArrayList<Location>> moves;
 
 	public static Scanner fin;
 
 	public Game(String inputFile) {
-		
+
 		words = new ArrayList<String>();
 		bonusWords = new ArrayList<String>();
-		moves = new ArrayList<Location>();
-		
+		moves = new ArrayList<ArrayList<Location>>();
+
 		getInput(inputFile);
 
 		// Testing
 		// testInitialization();
 
 	}
-	
+
 	public void doTask() {
-		switch(taskNum) {
+		switch (taskNum) {
 		case 1:
 			Tasks.sortAndPrint(words);
 			Tasks.sortAndPrint(bonusWords);
 			break;
-		
+
 		case 2:
 			int error = Tasks.task2(moves, gridSize);
-			if(error == 0) System.out.println("YES");
-			else if(error == 1)System.out.println("NO 1");
-			else if(error == 2)System.out.println("NO 2");
-			else if(error == 3)System.out.println("NO 3");
+			if (error == 0)
+				System.out.println("YES");
+			else if (error == 1)
+				System.out.println("NO 1");
+			else if (error == 2)
+				System.out.println("NO 2");
+			else if (error == 3)
+				System.out.println("NO 3");
 			break;
 		}
-			
+
 	}
 
 	private void getInput(String fileName) {
@@ -58,7 +61,7 @@ public class Game {
 		getWords();
 		populateGrid();
 		getSep();
-		getLocations();
+		getMoves();
 
 	}
 
@@ -161,18 +164,25 @@ public class Game {
 		}
 	}
 
-	private void getLocations() {
-		// location must be a pair of ints
-		int r, c;
-		while (fin.hasNextInt()) {
-			r = fin.nextInt();
-			if (!fin.hasNextInt()) {
-				System.out.println("Input error in moves list");
-				System.exit(40);
+	// get the list of moves from input
+	private void getMoves() {
+		// moves come in sets, delimited by &
+		ArrayList<Location> lst = new ArrayList<Location>();
+		//read values until & or eof
+
+		while(fin.hasNext()) {
+			String sep = "";
+			int row = -1, col = -1;
+			try {
+				row = fin.nextInt();
+				col = fin.nextInt();
+			}catch(InputMismatchException e) {
+				e.getLocalizedMessage();
 			}
-			c = fin.nextInt();
-			moves.add(new Location(r, c));
+			//add this location to the lst
+			lst.add(new Location(row, col));
 		}
+		
 	}
 
 }

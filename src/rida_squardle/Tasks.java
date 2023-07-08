@@ -15,33 +15,26 @@ public class Tasks {
 		System.out.println();
 	}
 
-	public static int task2(ArrayList<Location> moveList, int gridSize) {
+	public static int task2(ArrayList<ArrayList<Location>> moveList, int gridSize) {
 
 		int errorCode = 0;
 
-		// iterate over the moves
-		for (Location l : moveList) {
-			if (isOutOfBounds(l, gridSize)) {
-				errorCode = 1;
+		// iterate each list of moves
+		for (ArrayList<Location> lst : moveList) {
+			//for each move in this list
+			for (Location loc : lst) {
+				if(isOutOfBounds(loc, gridSize))
+					return 1;				
 			}
-		}
-
-		if (errorCode == 0) {
-			// iterate over the moves
-			for (int i = 0; i < moveList.size() - 1; i++) {
-				if (!areAdjacent(moveList.get(i), moveList.get(i + 1))) {
-					errorCode = 2;
-				}
-			}
-		}
-		
-		if(errorCode == 0) {
-			//check for duplicate moves
 			for(int i = 0; i < moveList.size(); i++) {
-				for(int j = 0; j < moveList.size() && errorCode == 0; j++) {
-					if( i != j && moveList.get(i).equals(moveList.get(j))) {
-						errorCode = 3;
+				for(int j = 0; j < moveList.get(i).size()-1; j++)
+					if(!areAdjacent(moveList.get(i).get(j), moveList.get(i).get(j+1))) {
+						return 2;
 					}
+			}
+			for(int i = 0; i < moveList.size(); i++) {
+				if(repeatedMove(moveList.get(i))) {
+					return 3;
 				}
 			}
 		}
