@@ -1,8 +1,9 @@
 package lydia_version;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class Sqardle {
+public class Squardle {
 	
 	//inner position class
 	class Position{
@@ -20,6 +21,10 @@ public class Sqardle {
 	private String[][] grid;
 	private Position [] positions;
 	
-	
+	public Squardle() throws FileNotFoundException {
+		InputOutputValidate.getInput("input.in");
+		taskNum = InputOutputValidate.getTaskNum();
+		System.out.println("Task num: " + taskNum);
+	}
 	
 }

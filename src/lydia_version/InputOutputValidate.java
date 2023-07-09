@@ -1,5 +1,10 @@
 package lydia_version;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class InputOutputValidate {
 
 	//Input specification
@@ -12,8 +17,32 @@ public class InputOutputValidate {
 	 * gridSize # 
 	 * x1 y1 x2 y2 x3 y3 
 	 */
+	public static Scanner fin;
+	private static String rawInput = "";
+		
 	
-	public static Object getInput(String filename) {
-		return null;		
+	public static void getInput(String filename) throws FileNotFoundException {
+		
+		//get input
+		fin = new Scanner(new File(filename));
+		rawInput = "";
+		while(fin.hasNext()) {
+			rawInput += fin.next() + " ";
+		}				
+	}
+	
+	
+	
+	public static int getTaskNum() {
+		Scanner inputScn = new Scanner(rawInput);
+		int taskNum = -1;
+		//check for task num
+		try {
+			taskNum = inputScn.nextInt();
+		}
+		catch(InputMismatchException me) {
+			System.out.println(me.getMessage());
+		}
+		return taskNum;
 	}
 }
