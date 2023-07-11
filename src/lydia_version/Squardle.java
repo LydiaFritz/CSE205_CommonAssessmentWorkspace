@@ -11,91 +11,147 @@ public class Squardle {
 	// static class variables
 	public static Scanner fin;
 
-	// inner position class
-	class Position {
-
-		public int column;
-		public int row;
-
-		Position(int c, int r) {
-			column = c;
-			row = r;
-		}
-
-		@Override
-		public String toString() {
-			return "[col:" + column + " row:" + row + "]";
-		}
-		
-		
-	}
-
 	// Squardle instance variables
 	private int taskNum;
 	private ArrayList<String> regularWords;
 	private ArrayList<String> bonusWords;
 	private String[][] grid;
-	private ArrayList<Position> positions;
+	private ArrayList<ArrayList<Position>> positions;
 
+	/**
+	 * 
+	 * @param fileName
+	 * @throws FileNotFoundException initialize Squardle with file contents
+	 */
 	public Squardle(String fileName) throws FileNotFoundException {
 		fin = new Scanner(new File(fileName));
 		regularWords = new ArrayList<String>();
 		bonusWords = new ArrayList<String>();
+		positions = new ArrayList<ArrayList<Position>>();
 		getInput();
 	}
 
+	/**
+	 * get and validate input from file
+	 */
 	private void getInput() {
+
 		String str = "";
 		while (fin.hasNextLine())
 			str += fin.nextLine();
 
-		// str has entire input file
+		// str is input file
 		String[] substrings = str.split(" # ");
 
+		// taskNum is first in file
+		getTaskNum(substrings[0]);
+		
+		// words are second
+		getWords(substrings[1].split(" "));
+		
+		// grid size is third
+		getGridSize(substrings[2]);
+		
+		// letters are fourth
+		getLetters(substrings[3].split(" "));
+
+		// substrings[4] is the list of moves
+		// moves are separated by &
+		String[] moves = substrings[4].split("& ");	
+		
+		getMoves(moves);
+		
+		// each element of moves is a sequence of moves to be evaluated
+	}
+
+	private void getTaskNum(String str) {
 		// validation
-		//substrings[0] is taskNum
 		try {
-			taskNum = Integer.parseInt(substrings[0]);
+			taskNum = Integer.parseInt(str);
 		} catch (InputMismatchException mismatch) {
 			System.out.println(mismatch.getLocalizedMessage());
 		}
-		
-		//get words
-		//assuming valid format (word, type)
-		//substrings[1] is word list
-		String words[] = substrings[1].split(" ");
-		//words[0] - word
-		//words[1] - type
-		for(int i = 0; i < words.length-1; i+=2) {
-			if(words[i+1].equals("R"))
-				this.regularWords.add(words[i]);
+	}
+
+	private void getWords(String[] strArr) {
+		// sort the words into regular and bonus
+		for (int i = 0; i < strArr.length - 1; i += 2) {
+			if (strArr[i + 1].equals("R"))
+				this.regularWords.add(strArr[i]);
 			else
-				this.bonusWords.add(words[i]);
+				this.bonusWords.add(strArr[i]);
 		}
-		
-		//substrings[2] is grid size
+	}
+
+	/**
+	 * 
+	 * @param str set the size of the grid from str
+	 */
+	private void getGridSize(String str) {
 		int sz = -1;
 		try {
-			sz = Integer.parseInt(substrings[2]);
+			sz = Integer.parseInt(str);
 		} catch (InputMismatchException mismatch) {
 			System.out.println(mismatch.getLocalizedMessage());
 		}
 		grid = new String[sz][sz];
-		
-		//substrings[3] is the letters in the grid
-		String letters[] = substrings[3].split(" ");
-				
+	}
+
+	private void getLetters(String[] letters) {
+		// substrings[3] is the letters in the grid
 		int index = 0;
-		for(int col = 0; col < grid.length; col++) {
-			for(int row = 0; row < grid.length; row++) {
+		for (int col = 0; col < grid.length; col++) {
+			for (int row = 0; row < grid.length; row++) {
 				grid[col][row] = letters[index++];
 			}
 		}
+	}
+
+	private void getMoves(String [] moves) {
 		
-		//substrings[4] is the list of moves
-		//moves are separated by &
-		String [] moves = substrings[4].split("& ");
-		//each element of moves is a sequence of moves to be evaluated
+		//moves[0]: 1 1 1 2 2 3 3 2
+		//moves[1]: 2 1 1 1 1 3
+		//etc.
+		
+		for(int i = 0; i < moves.length; i++) {
+			
+			//parse the string at this index
+			String [] thisMove = moves[i].split(" ");
+			//make the array list for this move
+			positions.add(new ArrayList<Position>());
+			
+			//for each element in this move, parse as int and
+			//put on the list of positions
+			for(int j = 0; j < thisMove.length; j+=2) {
+				int col = Integer.parseInt(thisMove[j]);
+				int row = Integer.parseInt(thisMove[j+1]);
+				positions.get(i).add(new Position(col, row));
+			}
+		}
+		System.out.println("The positions");
+		for(int move = 0; move < positions.size(); move++) {
+			System.out.println();
+			System.out.printf("Move %d: ", move);
+			for(int i = 0; i < positions.get(move).size(); i++)
+				System.out.print(positions.get(move).get(i) + " ");
+		}
+	}
+}
+
+//position class
+class Position {
+
+	public int column;
+	public int row;
+
+	Position(int c, int r) {
+		column = c;
+		row = r;
+	}
+
+	@Override
+	public String toString() {
+		return "[col:" + column + " row:" + row + "]";
 	}
 
 }
