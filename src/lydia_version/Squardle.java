@@ -127,14 +127,7 @@ public class Squardle {
 				int row = Integer.parseInt(thisMove[j+1]);
 				positions.get(i).add(new Position(col, row));
 			}
-		}
-		System.out.println("The positions");
-		for(int move = 0; move < positions.size(); move++) {
-			System.out.println();
-			System.out.printf("Move %d: ", move);
-			for(int i = 0; i < positions.get(move).size(); i++)
-				System.out.print(positions.get(move).get(i) + " ");
-		}
+		}		
 	}
 }
 
