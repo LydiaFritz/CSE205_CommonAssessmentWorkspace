@@ -21,17 +21,31 @@ public class MoveSequence {
 		return str.substring(0,str.length()-1);
 	}
 
-	public boolean isValid(int gridSize) {
-		return inBounds(gridSize) &&
-				isUnique() &&
-				areAdjacent();
+	public void isValid(int gridSize) {
+		int errCode = 0;
+		errCode = inBounds(gridSize);
+		if(errCode != 0) {
+			System.out.println("NO " + errCode);
+			return;
+		}
+		errCode = areAdjacent();
+		if(errCode != 0) {
+			System.out.println("NO " + errCode);
+			return;
+		}
+		errCode = isUnique();
+		if(errCode != 0) {
+			System.out.println("NO " + errCode);
+			return;
+		}
+		System.out.println("YES");
 	}
 
 	public void addMove(Position p) {
 		moveList.add(p);
 	}
 	
-	private boolean isUnique() {
+	private int isUnique() {
 		//returns true if this sequence contains only
 		//unique moves
 		boolean unique = true;
@@ -45,10 +59,11 @@ public class MoveSequence {
 					
 			}
 		}
-		return unique;
+		if(!unique)return 3;
+		return 0;
 	}
 	
-	private boolean inBounds(int gridSize) {
+	private int inBounds(int gridSize) {
 		boolean ok = true;
 		//all indicies n: 0 >= n > gridSize
 		for(int i = 0; i < moveList.size() && ok; i++) {
@@ -60,12 +75,12 @@ public class MoveSequence {
 				ok = false;
 		}
 		if(!ok) {
-			System.out.println("There are moves that are out of bounds.");
+			return 1;
 		}
-		return ok;
+		return 0;
 	}
 
-	private boolean areAdjacent() {
+	private int areAdjacent() {
 		boolean ok = true;
 		//make sure moves are adjacent
 		//(m,n) has the following adjacent moves
@@ -79,9 +94,9 @@ public class MoveSequence {
 			if(!areAdjacent(curr, next)) ok = false;
 		}
 		if(!ok) {
-			System.out.println("There are moves that are not adjacent.");
+			return 2;
 		}
-		return ok;
+		return 0;
 	}
 	
 	private boolean areAdjacent(Position a, Position b) {

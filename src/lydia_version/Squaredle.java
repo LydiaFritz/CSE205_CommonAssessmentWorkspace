@@ -52,6 +52,12 @@ public class Squaredle {
 		System.out.println();		
 	}
 	
+	public void taskTwo() {
+		for(MoveSequence ms : this.move_sequences) {
+			ms.isValid(grid.length);
+		}
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -114,9 +120,7 @@ public class Squaredle {
 		
 		//see if move sequences are valid
 		for(MoveSequence ms : this.move_sequences) {
-			if(!ms.isValid(grid.length)) {
-				System.out.printf("%s is an invalid sequence\n",ms);
-			}
+			ms.isValid(grid.length);
 		}
 	}
 
