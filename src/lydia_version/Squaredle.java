@@ -3,10 +3,11 @@ package lydia_version;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Squardle {
+public class Squaredle {
 
 	// static class variables
 	public static Scanner fin;
@@ -16,20 +17,40 @@ public class Squardle {
 	private ArrayList<String> regularWords;
 	private ArrayList<String> bonusWords;
 	private String[][] grid;
-	private ArrayList<ArrayList<Position>> positions;
+	private ArrayList<MoveSequence> move_sequences;
 
 	/**
 	 * 
 	 * @param fileName
 	 * @throws FileNotFoundException initialize Squardle with file contents
 	 */
-	public Squardle(String fileName) throws FileNotFoundException {
+	public Squaredle(String fileName) throws FileNotFoundException {
 		fin = new Scanner(new File(fileName));
 		regularWords = new ArrayList<String>();
 		bonusWords = new ArrayList<String>();
-		positions = new ArrayList<ArrayList<Position>>();
+		move_sequences = new ArrayList<MoveSequence>();
 		getInput();
 	}
+
+	
+	@Override
+	public String toString() {
+		String theGrid = "";
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid.length; j++) {
+				theGrid += String.format(" %s |", grid[i][j]);
+			}
+			theGrid += "\n----------------\n";
+		}
+		String theMoves = "";
+		
+		return "Squardle\ntaskNum=" + taskNum 
+				+ "\nregularWords=" + regularWords 
+				+ "\nbonusWords=" + bonusWords
+				+ "\nthe grid\n" + theGrid; 
+				
+	}
+
 
 	/**
 	 * get and validate input from file
@@ -117,34 +138,16 @@ public class Squardle {
 			
 			//parse the string at this index
 			String [] thisMove = moves[i].split(" ");
-			//make the array list for this move
-			positions.add(new ArrayList<Position>());
-			
+			//make a list for the moves
+			MoveSequence curr = new MoveSequence();
 			//for each element in this move, parse as int and
 			//put on the list of positions
 			for(int j = 0; j < thisMove.length; j+=2) {
 				int col = Integer.parseInt(thisMove[j]);
 				int row = Integer.parseInt(thisMove[j+1]);
-				positions.get(i).add(new Position(col, row));
+				curr.addMove(new Position(col, row));
 			}
 		}		
 	}
 }
 
-//position class
-class Position {
-
-	public int column;
-	public int row;
-
-	Position(int c, int r) {
-		column = c;
-		row = r;
-	}
-
-	@Override
-	public String toString() {
-		return "[col:" + column + " row:" + row + "]";
-	}
-
-}
