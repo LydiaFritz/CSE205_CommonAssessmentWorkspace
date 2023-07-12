@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -30,8 +31,27 @@ public class Squaredle {
 		bonusWords = new ArrayList<String>();
 		move_sequences = new ArrayList<MoveSequence>();
 		getInput();
+		doTask();
+	}
+	
+	public void doTask() {
+		if(taskNum == 1) taskOne();
 	}
 
+	
+	public void taskOne() {
+		//sort and display the words each list
+		Collections.sort(bonusWords);
+		Collections.sort(regularWords);
+		for(String str : regularWords) {
+			System.out.printf("%s ", str);
+		}
+		for(String str : bonusWords) {
+			System.out.printf("%s ", str);
+		}
+		System.out.println();		
+	}
+	
 	
 	@Override
 	public String toString() {

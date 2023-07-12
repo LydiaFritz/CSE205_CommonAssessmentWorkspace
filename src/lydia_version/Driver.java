@@ -10,7 +10,7 @@ public class Driver {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Squaredle sq = new Squaredle("input.in");
-		System.out.println(sq);
+		//System.out.println(sq);
 		
 	}
 }
