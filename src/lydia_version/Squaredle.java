@@ -42,12 +42,12 @@ public class Squaredle {
 			}
 			theGrid += "\n----------------\n";
 		}
-		String theMoves = "";
-		
+				
 		return "Squardle\ntaskNum=" + taskNum 
 				+ "\nregularWords=" + regularWords 
 				+ "\nbonusWords=" + bonusWords
-				+ "\nthe grid\n" + theGrid; 
+				+ "\nthe grid\n" + theGrid 
+				+ "\nthe moves\n" + this.move_sequences; 
 				
 	}
 
@@ -147,6 +147,7 @@ public class Squaredle {
 				int row = Integer.parseInt(thisMove[j+1]);
 				curr.addMove(new Position(col, row));
 			}
+			this.move_sequences.add(curr);
 		}		
 	}
 }

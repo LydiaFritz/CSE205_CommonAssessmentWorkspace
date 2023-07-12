@@ -10,6 +10,15 @@ public class MoveSequence {
 		moveList = new ArrayList<Position>();
 	}
 	
+		
+	@Override
+	public String toString() {
+		
+		return "MoveSequence " + moveList + "";
+	}
+
+
+
 	public void addMove(Position p) {
 		moveList.add(p);
 	}
