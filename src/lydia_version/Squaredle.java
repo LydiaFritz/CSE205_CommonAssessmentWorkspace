@@ -36,18 +36,28 @@ public class Squaredle {
 	@Override
 	public String toString() {
 		String theGrid = "";
+		theGrid += "----------------\n";
 		for(int i = 0; i < grid.length; i++) {
+			//start each line
+			theGrid +="|";
 			for(int j = 0; j < grid.length; j++) {
 				theGrid += String.format(" %s |", grid[i][j]);
 			}
 			theGrid += "\n----------------\n";
 		}
+		
+		String moves = "";
+		int count = 0;
+		for(MoveSequence ms : this.move_sequences) {
+			//for ea move sequence, print the number
+			moves += "" + (++count) +". "+ ms + "\n";
+		}
 				
-		return "Squardle\ntaskNum=" + taskNum 
-				+ "\nregularWords=" + regularWords 
-				+ "\nbonusWords=" + bonusWords
-				+ "\nthe grid\n" + theGrid 
-				+ "\nthe moves\n" + this.move_sequences; 
+		return "Squardle\n\ntaskNum=" + taskNum 
+				+ "\n\nregularWords=" + regularWords 
+				+ "\n\nbonusWords=" + bonusWords
+				+ "\n\nthe grid\n" + theGrid 
+				+ "\nthe moves\n" + moves; 
 				
 	}
 
@@ -84,8 +94,8 @@ public class Squaredle {
 		
 		//see if move sequences are valid
 		for(MoveSequence ms : this.move_sequences) {
-			if(!ms.inBounds(grid.length)) {
-				System.out.printf("%s is an invalid sequence = out of bounds\n",ms);
+			if(!ms.isValid(grid.length)) {
+				System.out.printf("%s is an invalid sequence\n",ms);
 			}
 		}
 	}
