@@ -82,7 +82,12 @@ public class Squaredle {
 		
 		getMoves(moves);
 		
-		// each element of moves is a sequence of moves to be evaluated
+		//see if move sequences are valid
+		for(MoveSequence ms : this.move_sequences) {
+			if(!ms.inBounds(grid.length)) {
+				System.out.printf("%s is an invalid sequence = out of bounds\n",ms);
+			}
+		}
 	}
 
 	private void getTaskNum(String str) {

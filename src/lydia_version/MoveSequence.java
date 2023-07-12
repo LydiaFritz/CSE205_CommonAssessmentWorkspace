@@ -14,7 +14,7 @@ public class MoveSequence {
 	@Override
 	public String toString() {
 		
-		return "MoveSequence " + moveList + "";
+		return "" + moveList + "";
 	}
 
 
@@ -36,6 +36,20 @@ public class MoveSequence {
 			}
 		}
 		return unique;
+	}
+	
+	public boolean inBounds(int gridSize) {
+		boolean ok = true;
+		//all indicies n: 0 >= n > gridSize
+		for(int i = 0; i < moveList.size() && ok; i++) {
+			if(moveList.get(i).column < 0 ||
+					moveList.get(i).column >= gridSize)
+				ok = false;
+			else if(moveList.get(i).row >= gridSize ||
+					moveList.get(i).row < 0)
+				ok = false;
+		}
+		return ok;
 	}
 
 }
