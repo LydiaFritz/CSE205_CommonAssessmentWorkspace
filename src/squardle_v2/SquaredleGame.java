@@ -10,7 +10,18 @@ public class SquaredleGame {
 		//allocate the grid
 		grid = new ArrayList<ArrayList<Cell>>();
 		buildGrid(size);
+		showGrid();
 		
+	}
+	
+	//for testing
+	private void showGrid() {
+		for(int r = 0; r < grid.size(); r++) {
+			for(int c = 0; c < grid.size(); c++) {
+				System.out.printf("| %s ", grid.get(r).get(c).value);
+			}
+			System.out.println("|");
+		}
 	}
 	
 	private void buildGrid(int size) {
