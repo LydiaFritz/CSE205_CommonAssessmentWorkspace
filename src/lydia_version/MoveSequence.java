@@ -21,24 +21,24 @@ public class MoveSequence {
 		return str.substring(0,str.length()-1);
 	}
 
-	public void isValid(int gridSize) {
+	public boolean isValid(int gridSize) {
 		int errCode = 0;
 		errCode = inBounds(gridSize);
 		if(errCode != 0) {
-			System.out.println("NO " + errCode);
-			return;
+			System.out.println(errCode);
+			return false;
 		}
 		errCode = areAdjacent();
 		if(errCode != 0) {
-			System.out.println("NO " + errCode);
-			return;
+			System.out.println(errCode);
+			return false;
 		}
 		errCode = isUnique();
 		if(errCode != 0) {
-			System.out.println("NO " + errCode);
-			return;
+			System.out.println(errCode);
+			return false;
 		}
-		System.out.println("YES");
+		return true;
 	}
 
 	public void addMove(Position p) {

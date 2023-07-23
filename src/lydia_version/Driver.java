@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Driver {
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Squaredle sq = new Squaredle("input.in");
+		Squaredle sq = new Squaredle("input1.in");
 		//System.out.println(sq);
 		
 	}

@@ -36,6 +36,7 @@ public class Squaredle {
 	
 	public void doTask() {
 		if(taskNum == 1) taskOne();
+		else if(taskNum == 2) taskTwo();
 	}
 
 	
@@ -53,9 +54,12 @@ public class Squaredle {
 	}
 	
 	public void taskTwo() {
+		boolean ok = true;
 		for(MoveSequence ms : this.move_sequences) {
-			ms.isValid(grid.length);
+			if(!ms.isValid(grid.length))ok = false;
 		}
+		if(ok)System.out.println("YES");
+		else System.out.println("NO"); 
 	}
 	
 	
