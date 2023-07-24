@@ -1,17 +1,22 @@
 package squardle_v2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SquaredleGame {
 
 	private ArrayList< ArrayList<Cell> > grid;
+	public static Scanner scanner = null;
+
 	
+	//constructor
 	public SquaredleGame(int size) {
 		//allocate the grid
 		grid = new ArrayList<ArrayList<Cell>>();
 		buildGrid(size);
-		showGrid();
-		
+		showGrid();		
 	}
 	
 	//for testing
@@ -22,9 +27,12 @@ public class SquaredleGame {
 			}
 			System.out.println("|");
 		}
+		System.out.println();
 	}
 	
+	//allocate and populate grid with cells
 	private void buildGrid(int size) {
+
 		for(int row = 0; row < size; row++) {
 			grid.add(new ArrayList<Cell>());
 			for(int col = 0; col < size; col++) {
@@ -33,6 +41,19 @@ public class SquaredleGame {
 		}
 		
 	}
+	
+	public void initializeGame(String data) {
+		//read the data and initialize the game
+		int i = 0;
+		for(int r = 0; r < grid.size(); r++) {
+			for(int c = 0; c < grid.size(); c++) {
+				grid.get(r).get(c).value = "" + data.charAt(i++);
+			}
+		}
+		showGrid();
+		
+	}
+	
 }
 
 class Cell{
