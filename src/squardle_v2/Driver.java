@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Driver {
-	public static void main(String[] args) {
-		SquaredleGame game = new SquaredleGame(4);
-		game.initializeGame(getData("test.in"));
+	public static void main(String[] args) throws FileNotFoundException {
+		SquaredleGame game = new SquaredleGame();
+		game.getInput("test.in");
 	}
 	
 	//return a string containing the data in a file

@@ -12,11 +12,9 @@ public class SquaredleGame {
 
 	
 	//constructor
-	public SquaredleGame(int size) {
+	public SquaredleGame() {
 		//allocate the grid
-		grid = new ArrayList<ArrayList<Cell>>();
-		buildGrid(size);
-		showGrid();		
+		grid = new ArrayList<ArrayList<Cell>>();		
 	}
 	
 	//for testing
@@ -39,6 +37,23 @@ public class SquaredleGame {
 				grid.get(row).add(new Cell(row, col));				
 			}
 		}
+		
+	}
+	public void getInput(String str) throws FileNotFoundException {
+		scanner = new Scanner(new File(str));
+		
+		//get the size first
+		int size = scanner.nextInt();
+		
+		//build the grid
+		buildGrid(size);
+		
+		//put the letters in the grid
+		String data = "";
+		while(scanner.hasNext()) {
+			data += scanner.next();
+		}
+		initializeGame(data);
 		
 	}
 	
