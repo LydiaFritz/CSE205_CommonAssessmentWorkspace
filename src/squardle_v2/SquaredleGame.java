@@ -9,6 +9,8 @@ public class SquaredleGame {
 
 	private ArrayList< ArrayList<Cell> > grid;
 	public static Scanner scanner = null;
+	private ArrayList<String> bonusWords = new ArrayList<String>();
+	private ArrayList<String> regWords = new ArrayList<String>();
 
 	
 	//constructor
@@ -45,6 +47,14 @@ public class SquaredleGame {
 		//get the size first
 		int size = scanner.nextInt();
 		
+		//extract the #
+		String sep = scanner.next();
+		getWords();
+		
+		System.out.println("Testing the word extraction");
+		System.out.println(bonusWords);
+		System.out.println(regWords);
+		
 		//build the grid
 		buildGrid(size);
 		
@@ -55,6 +65,19 @@ public class SquaredleGame {
 		}
 		initializeGame(data);
 		
+	}
+	//get the words from the input
+	private void getWords() {
+		String word="", type="";
+		while(scanner.hasNext()) {
+			word = scanner.next();
+			if(word.equals("#"))break;
+			type = scanner.next();
+			if(type.equals("B"))
+				bonusWords.add(word);
+			else
+				regWords.add(word);
+		}
 	}
 	
 	public void initializeGame(String data) {
@@ -68,6 +91,7 @@ public class SquaredleGame {
 		showGrid();
 		
 	}
+
 	
 }
 
