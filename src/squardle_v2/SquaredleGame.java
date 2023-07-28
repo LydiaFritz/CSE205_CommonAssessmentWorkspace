@@ -11,6 +11,7 @@ public class SquaredleGame {
 	public static Scanner scanner = null;
 	private ArrayList<String> bonusWords = new ArrayList<String>();
 	private ArrayList<String> regWords = new ArrayList<String>();
+	private ArrayList<Position> positions = new ArrayList<Position>();
 
 	
 	//constructor
@@ -51,6 +52,11 @@ public class SquaredleGame {
 		String sep = scanner.next();
 		getWords();
 		
+		//get positions
+		getPositions();
+		System.out.println("Testing position extraction");
+		System.out.println(positions);
+		
 		System.out.println("Testing the word extraction");
 		System.out.println(bonusWords);
 		System.out.println(regWords);
@@ -80,6 +86,21 @@ public class SquaredleGame {
 		}
 	}
 	
+	private void getPositions() {
+		//positions come in pairs of ints
+		//must look for "#"
+		String row = "", col = "";
+		while(scanner.hasNext()) {
+			row = scanner.next();
+			if(row.equals("#")) break;
+			col = scanner.next();
+			Position p = new Position();
+			p.row = Integer.parseInt(row);
+			p.col = Integer.parseInt(col);
+			positions.add(p);
+		}
+		
+	}
 	public void initializeGame(String data) {
 		//read the data and initialize the game
 		int i = 0;
@@ -93,6 +114,11 @@ public class SquaredleGame {
 	}
 
 	
+}
+
+class Position{
+	public int row = -1, col = -1;
+	public String toString() {return "("+row+","+col+")";}
 }
 
 class Cell{
