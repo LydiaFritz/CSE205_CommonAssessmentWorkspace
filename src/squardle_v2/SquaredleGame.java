@@ -4,43 +4,106 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class SquaredleGame {
 
-	private ArrayList<ArrayList<Cell>> grid;
 	public static Scanner scanner = null;
+	
+	private ArrayList<ArrayList<Cell>> grid;
 	private ArrayList<String> bonusWords = new ArrayList<String>();
 	private ArrayList<String> regWords = new ArrayList<String>();
 	private ArrayList<Position> positions = new ArrayList<Position>();
 	private int taskNum = 0;
 
-	// constructor
+	/**
+	 * allocate the grid 
+	 */
 	public SquaredleGame() {
 		// allocate the grid
 		grid = new ArrayList<ArrayList<Cell>>();
 	}
-	
+
+
+	/**
+	 * run the given task
+	 */
 	public void runTask() {
-		switch(taskNum) {
+		switch (taskNum) {
 		case 1:
 			taskOne();
+			break;
+
+		case 2:
+			taskTwo();
 			break;
 		}
 	}
 
+	/**
+	 * sort and display words in order
+	 * [sorted reg words] [sorted bonus words]
+	 */
 	private void taskOne() {
+		System.out.println("\n--------\nTASK ONE\n--------\n");
 		Collections.sort(regWords);
-		for(String s : regWords) {
+		for (String s : regWords) {
 			System.out.print(s + " ");
 		}
 		Collections.sort(bonusWords);
-		for(String s : bonusWords) {
+		for (String s : bonusWords) {
 			System.out.print(s + " ");
 		}
-		System.out.println();		
+		System.out.println();
 	}
-	
+
+	private void taskTwo() {
+		for(Position p : positions) {
+			if(!inBounds(p)) {
+				System.out.println("NO 1");
+				return;
+			}
+		}
+		
+		if(!adjacent()) {
+			System.out.println("NO 2");			
+		}
+		else if(repeatedMove()) {
+			System.out.println("NO 3");
+		}
+		else{
+			System.out.println("YES");
+		}		
+	}
+
+	private boolean inBounds(Position p) {
+		int length = this.grid.size();
+		return p.row >= 0 && p.row < length && p.col >= 0 && p.col < length;
+	}
+
+	private boolean adjacent() {
+		// return true if sequential positions are adjacent, false otherwise
+		for (int i = 0; i < positions.size() - 1; i++) {
+			Position curr = positions.get(i), next = positions.get(i + 1);
+			if (!(next.row >= curr.row - 1 && next.row <= curr.row + 1 && next.col >= curr.col - 1
+					&& next.col <= curr.col + 1))
+				return false;
+		}
+		return true;
+	}
+
+	private boolean repeatedMove() {
+		boolean dupes = false;
+		for (int i = 0; i < positions.size() && !dupes; i++) {
+			for (int j = i + 1; j < positions.size(); j++) {
+				if (positions.get(i).equals(positions.get(j)))
+					dupes = true;
+			}
+		}
+		return dupes;
+	}
+
 	// for testing
 	private void showGrid() {
 		for (int r = 0; r < grid.size(); r++) {
@@ -80,10 +143,10 @@ public class SquaredleGame {
 		buildGrid(size);
 		// put the letters in the grid
 		String data = "";
-		
-		while (scanner.hasNext() ) {
+
+		while (scanner.hasNext()) {
 			String newStr = scanner.next();
-			if(newStr.equals("#")) {
+			if (newStr.equals("#")) {
 				break;
 			}
 			data += newStr;
@@ -98,7 +161,6 @@ public class SquaredleGame {
 		System.out.println(bonusWords);
 		System.out.println(regWords);
 
-		
 	}
 
 	// get the words from the input
@@ -114,24 +176,6 @@ public class SquaredleGame {
 			else
 				regWords.add(word);
 		}
-	}
-	
-	private boolean noDuplicates(ArrayList<String> words) {
-		boolean dupes = false;
-		for(int i = 0; i < words.size(); i++) {
-			
-		}
-		return dupes;
-	}
-	
-	private boolean positionsInBound() {
-		//checks to see if the positions are within grid bounds
-		boolean inBounds = true;
-		int size = grid.size();
-		for(Position p : positions) {
-			return p.row >= 0 && p.row < size && p.col >= 0 && p.col < size;
-		}
-		return inBounds;
 	}
 
 	private void getPositions() {
@@ -166,6 +210,19 @@ public class SquaredleGame {
 }
 
 class Position {
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Position)) {
+			return false;
+		}
+		Position other = (Position) obj;
+		return col == other.col && row == other.row;
+	}
+
 	public int row = -1, col = -1;
 
 	public String toString() {
