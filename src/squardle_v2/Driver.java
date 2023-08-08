@@ -8,6 +8,7 @@ public class Driver {
 	public static void main(String[] args) throws FileNotFoundException {
 		SquaredleGame game = new SquaredleGame();
 		game.getInput("test.in");
+		game.runTask();
 	}
 	
 	//return a string containing the data in a file

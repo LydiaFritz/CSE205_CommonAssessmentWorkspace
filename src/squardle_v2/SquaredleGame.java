@@ -3,6 +3,7 @@ package squardle_v2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class SquaredleGame {
@@ -19,7 +20,27 @@ public class SquaredleGame {
 		// allocate the grid
 		grid = new ArrayList<ArrayList<Cell>>();
 	}
+	
+	public void runTask() {
+		switch(taskNum) {
+		case 1:
+			taskOne();
+			break;
+		}
+	}
 
+	private void taskOne() {
+		Collections.sort(regWords);
+		for(String s : regWords) {
+			System.out.print(s + " ");
+		}
+		Collections.sort(bonusWords);
+		for(String s : bonusWords) {
+			System.out.print(s + " ");
+		}
+		System.out.println();		
+	}
+	
 	// for testing
 	private void showGrid() {
 		for (int r = 0; r < grid.size(); r++) {
@@ -93,6 +114,24 @@ public class SquaredleGame {
 			else
 				regWords.add(word);
 		}
+	}
+	
+	private boolean noDuplicates(ArrayList<String> words) {
+		boolean dupes = false;
+		for(int i = 0; i < words.size(); i++) {
+			
+		}
+		return dupes;
+	}
+	
+	private boolean positionsInBound() {
+		//checks to see if the positions are within grid bounds
+		boolean inBounds = true;
+		int size = grid.size();
+		for(Position p : positions) {
+			return p.row >= 0 && p.row < size && p.col >= 0 && p.col < size;
+		}
+		return inBounds;
 	}
 
 	private void getPositions() {
